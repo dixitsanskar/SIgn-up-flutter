@@ -60,57 +60,38 @@ class _LoginViewState extends State<LoginView> {
             
             ),
       
-            TextButton(onPressed: () async {
-              await Firebase.initializeApp(
-                
-              options: DefaultFirebaseOptions.currentPlatform,
-       );
-      
-        
-              final email= _email.text;
-              final password=_password.text;
-           try {
+            TextButton(onPressed: ()  {
+              
+           
              
-            
-            await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-             final user=FirebaseAuth.instance.currentUser;
-             if(user?.emailVerified ?? false)
-             {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
+                  Navigator.of(context).pushNamedAndRemoveUntil(
                   notesroute, 
                  (route) => false,);
-             }
-
-             else{
-
-              Navigator.of(context).pushNamedAndRemoveUntil(
-              verifyemailroute, 
-             (route) => false,);
-             }
              
-           } 
-           
-           
-           on FirebaseAuthException catch(e) {
-            if(e.code=='user-not-found')
-            {
-              await showErrorDialog(context,'user not found');
-            }
-             
-             else if(e.code=='wrong-password')
-             {
-             await showErrorDialog(context,'wrong password');
-           
-             }
 
-             else 
-             {
-              await showErrorDialog(context,'Error: ${e.code}',);
-             }
-           }
-           catch (e){
-            await showErrorDialog(context,e.toString());
-           }
+             
+           
+           
+          //  on FirebaseAuthException catch(e) {
+          //   if(e.code=='user-not-found')
+          //   {
+          //     await showErrorDialog(context,'user not found');
+          //   }
+             
+          //    else if(e.code=='wrong-password')
+          //    {
+          //    await showErrorDialog(context,'wrong password');
+           
+          //    }
+
+          //    else 
+          //    {
+          //     await showErrorDialog(context,'Error: ${e.code}',);
+          //    }
+          //  }
+          //  catch (e){
+          //   await showErrorDialog(context,e.toString());
+          //  }
 
            
             

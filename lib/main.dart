@@ -24,12 +24,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         
         primarySwatch: Colors.blue,
       ),
-      home: const Homepage(),
+      home: const LoginView(),
       routes: {
         loginroute: (context) => const LoginView(),
         registerroute: (context) => const RegisterView(),
@@ -46,42 +47,7 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Firebase.initializeApp(
-              
-            options: DefaultFirebaseOptions.currentPlatform,
-     ),
-
-      builder: (context, snapshot) {
-       switch(snapshot.connectionState){
-         case ConnectionState.done:
-         final user=FirebaseAuth.instance.currentUser;
-         if(user!=null)
-         {
-          if(user.emailVerified)
-          {
-            return Notesview();
-          }
-          else 
-          {
-            return const Verifyemailview();
-          }
-         }
-
-         else 
-         {
-          return const LoginView();
-         }
-        
-          default: 
-          Scaffold:
-          return CircularProgressIndicator();
-          
-       }
-        
-      },
-      
-    );
+     return Notesview();
   }
  
 }
@@ -103,18 +69,10 @@ class _NotesviewState extends State<Notesview> {
       title: const Text('Main UI'),
       actions: [
         PopupMenuButton<MenuAction>(
-          onSelected:(value) async{
-            switch(value){
-               case MenuAction.logout:
-                final shouldlogout=await showLogoutDialog(context);
-               if(shouldlogout)
-               {
-                await FirebaseAuth.instance.signOut();
-                Navigator.of(context).pushNamedAndRemoveUntil(loginroute, (_) => false,);
-               }
-            }
-          
-             
+          onSelected:(value) {
+           Navigator.of(context).pushNamedAndRemoveUntil(
+                   loginroute, 
+                  (route) => false,);
             },
           itemBuilder: (context){
             return const [

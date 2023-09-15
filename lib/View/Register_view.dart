@@ -58,37 +58,11 @@ class _RegisterViewState extends State<RegisterView> {
             
             ),
       
-            TextButton(onPressed: () async {
-              await Firebase.initializeApp(
-                
-              options: DefaultFirebaseOptions.currentPlatform,
-       );
+            TextButton(onPressed: ()  {
+             Navigator.of(context).pushNamedAndRemoveUntil(
+                  notesroute, 
+                 (route) => false,);
       
-        
-              final email= _email.text;
-              final password=_password.text;
-           try{
-            final usercredentials =
-               await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-               devtools.log(usercredentials.toString());
-           }
-   
-           on FirebaseAuthException catch(e)
-           {
-            if(e.code=='weak-password')
-            await showErrorDialog(context,'Weak password');
-   
-            else if(e.code=='email-already-in-use')
-            await showErrorDialog(context,'email already in use');
-   
-            else 
-            await showErrorDialog(context,'Error: ${e.code}',);
-           }
-           catch (e)
-           {
-            await showErrorDialog(context,e.toString(),);
-           }
-   
             },
             child: const Text('Register'),),
             TextButton(onPressed:() {
